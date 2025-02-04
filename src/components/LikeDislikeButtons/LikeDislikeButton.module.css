@@ -1,0 +1,14 @@
+.like-dislike-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button.active img {
+  filter: brightness(0) saturate(100%) invert(40%) sepia(100%) saturate(500%) hue-rotate(190deg);
+}

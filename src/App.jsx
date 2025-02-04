@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import './App.css'
-import MovieInput from './components/MovieInput/MovieInput.jsx';
-import MovieList from './components/MovieList/MovieList.jsx';
+import { useState } from "react";
+import "./App.css";
+import MovieInput from "./components/MovieInput/MovieInput.jsx";
+import MovieList from "./components/MovieList/MovieList.jsx";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
@@ -16,7 +16,7 @@ export default function App() {
       setMovies(updatedMovies);
       setEditingIndex(null);
     } else {
-      setMovies([...movies,{  name: movieName, watched: false}]);
+      setMovies([...movies, { name: movieName, watched: false, likeStatus: null }]);
     }
     setMovieName("");
   };
@@ -26,32 +26,59 @@ export default function App() {
   };
 
   const handleEditMovie = (index) => {
-    setMovieName(movies[index]).name;
+    setMovieName(movies[index].name);
     setEditingIndex(index);
   };
 
   const handleCancelEditing = () => {
-    setEditingIndex(null)
+    setEditingIndex(null);
     setMovieName("");
-  }
-  const toggleWatched = (index)  => {
+  };
+
+  const toggleWatched = (index) => {
     const updatedMovies = [...movies];
     updatedMovies[index].watched = !updatedMovies[index].watched;
     setMovies(updatedMovies);
   };
 
+  const handleLike = (index) => {
+    const updatedMovies = [...movies];
+    if (updatedMovies[index].likeStatus === "liked") {
+      updatedMovies[index].likeStatus = null;
+    } else {
+      updatedMovies[index].likeStatus = "liked";
+    }
+    setMovies(updatedMovies);
+  };
+
+  const handleDislike = (index) => {
+    const updatedMovies = [...movies];
+    if (updatedMovies[index].likeStatus === "disliked") {
+      updatedMovies[index].likeStatus = null;
+    } else {
+      updatedMovies[index].likeStatus = "disliked";
+    }
+    setMovies(updatedMovies);
+  };
 
   return (
     <div className="container">
       <h1>Movie Tracker</h1>
-    <MovieInput
-      movieName={movieName}
-      setMovieName={setMovieName}
-      handleAddOrEditMovie={handleAddOrEditMovie}
-      editingIndex={editingIndex}
-      handleCancelEditing={handleCancelEditing}
-    />
-      <MovieList movies={movies} handleEditMovie={handleEditMovie}  handleDeleteMovie={handleDeleteMovie} toggleWatched={toggleWatched} />
+      <MovieInput
+        movieName={movieName}
+        setMovieName={setMovieName}
+        handleAddOrEditMovie={handleAddOrEditMovie}
+        editingIndex={editingIndex}
+        handleCancelEditing={handleCancelEditing}
+      />
+      <MovieList
+        movies={movies}
+        handleEditMovie={handleEditMovie}
+        handleDeleteMovie={handleDeleteMovie}
+        toggleWatched={toggleWatched}
+        handleLike={handleLike}
+        handleDislike={handleDislike}
+      />
     </div>
   );
 }
